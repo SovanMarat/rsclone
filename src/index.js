@@ -5,17 +5,41 @@ import app from './js/app';
 import Exercises from './js/exercises';
 import Test from './js/test';
 import Level from './js/level';
+import Challenge from './js/challenge';
 
+
+export const challenge = new Challenge();
+challenge.renderDay('pushups');
+challenge.renderDay('sitUps');
+challenge.renderDay('squats');
+challenge.renderDay('burpee');
 
 export const exercises = new Exercises();
-exercises.render();
+exercises.level('pushups');
+exercises.level('sitUps');
+exercises.level('squats');
+exercises.level('burpee');
+
+exercises.renderHeader();
+exercises.render('pushups');
+exercises.render('sitUps');
+exercises.render('squats');
+exercises.render('burpee');
+
 exercises.clickExercises('pushups', app.level_pushups);//
 exercises.clickExercises('sitUps', app.level_sitUps);//
-exercises.init();
+exercises.clickExercises('squats', app.level_squats);//
+exercises.clickExercises('burpee', app.level_burpee);//
+exercises.clickLang();
+
+
+
 
 export const level = new Level();
 level.renderLevel('pushups', app.level_pushups);
 level.renderLevel('sitUps', app.level_sitUps);
+level.renderLevel('squats', app.level_squats);
+level.renderLevel('burpee', app.level_burpee);
 
 export const test = new Test();
 test.clickTest();
@@ -52,68 +76,16 @@ btnMenu.addEventListener('click', () => {
     removeMenuActive();
   } else {
     addMenuActive();
-  }
+  } 
   app.stateBurgerMenu = !app.stateBurgerMenu;
-});
+}); 
 
 menuOverlay.addEventListener('click', () => {
   removeMenuActive();
   app.stateBurgerMenu = !app.stateBurgerMenu;
 });
 
-const btnHome = document.getElementById('0'); //
+const btnHome = document.getElementById('0'); // home page
 btnHome.addEventListener('click', () => {
-  const header = document.querySelector('.header');
-  const main = document.querySelector('.main');
-  header.innerHTML = '';
-  main.innerHTML = '';
-  exercises.render();
-  exercises.init();
-  level.renderLevel('pushups', app.level_pushups);
-  level.renderLevel('sitUps', app.level_sitUps);
-  exercises.clickExercises('pushups', app.level_pushups);//
-  exercises.clickExercises('sitUps', app.level_sitUps);//
-});
-
-const click = () => {
-  const header = document.querySelector('.header');
-  const main = document.querySelector('.main');
-  const btnRu = document.querySelector('.lang_ru');
-  const btnEn = document.querySelector('.lang_en');
-
-
-  //
-
-  btnRu.addEventListener('click', () => {
-    language.appLang = 'ru';
-    console.log(language.appLang);
-    header.innerHTML = '';
-    main.innerHTML = '';
-    //qqq.textContent = "Статус"; ///////////////////////////////////
-    exercises.render();
-    level.renderLevel('pushups', app.level_pushups);
-    level.renderLevel('sitUps', app.level_sitUps);
-    click();
-  });
-  btnEn.addEventListener('click', () => {
-    language.appLang = 'en';
-    console.log(language.appLang);
-    header.innerHTML = '';
-    main.innerHTML = '';
-    //qqq.textContent = "Status"; //
-
-    exercises.render();
-    level.renderLevel('pushups', app.level_pushups);
-    level.renderLevel('sitUps', app.level_sitUps);
-    click();
-  });
-}
-click();
-
-const st = document.querySelector('.status');
-st.addEventListener('click', ()=> {
-app.level_pushups='Hard';
-const lv = document.querySelector('.pushupsBoxLevel');
-lv.innerHTML = '';
-level.renderLevel('pushups', app.level_pushups);
+exercises.init();
 });
