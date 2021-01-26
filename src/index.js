@@ -1,14 +1,12 @@
 import './styles/index.scss';
-// import language from './js/lang';
 import app from './js/app';
-
+import UI from './js/UI';
 import Exercises from './js/exercises';
 import Test from './js/test';
 import Level from './js/level';
 import Challenge from './js/challenge';
 import Rules from './js/rules';
-
-
+import Game from './js/randomGame';
 
 export const challenge = new Challenge();
 challenge.renderDay('pushups');
@@ -45,6 +43,9 @@ test.clickTest();
 export const rules = new Rules();
 rules.clickRules();
 
+export const game = new Game();
+game.clickGame();
+
 const btnMenu = document.querySelector('.burger-menu__button');
 const menu = document.querySelector('.burger-menu');
 const menuOverlay = document.querySelector('.burger-menu__overlay');
@@ -57,18 +58,13 @@ const addMenuActive = () => {
   menu.classList.add('burger-menu-active');
 };
 
-// menuLink.addEventListener('click', () => {
-//     removeMenuActive();
-//   });
-//
-menuLink.onclick = function (event) {
-  const { target } = event; // где был клик?
-  if (target.tagName !== 'A') return; // не на TD? тогда не интересует
+menuLink.onclick = (event) => {
+  const { target } = event;
+  if (target.tagName !== 'A') return;
 
-  removeMenuActive(); // подсветить TD
+  removeMenuActive();
   app.stateBurgerMenu = !app.stateBurgerMenu;
 };
-//
 
 btnMenu.addEventListener('click', () => {
   if (app.stateBurgerMenu) {
@@ -84,7 +80,15 @@ menuOverlay.addEventListener('click', () => {
   app.stateBurgerMenu = !app.stateBurgerMenu;
 });
 
-const btnHome = document.getElementById('0'); // home page
+const btnHome = document.getElementById('0');
 btnHome.addEventListener('click', () => {
-exercises.init();
+  exercises.init();
 });
+
+const footer = document.querySelector('.footer');
+const vkShare = UI.renderElement(footer, 'div', null, ['class', 'vkShare']);
+// eslint-disable-next-line
+vkShare.innerHTML = (VK.Share.button(
+  { url: 'https://sovanmarat-rs-clone.netlify.app/', title: 'Challenge yourself for 30 days', image: 'https://sovanmarat-rs-clone.netlify.app/21d4a2502972c6f1c850.png' },
+  { type: 'link', text: 'Share' },
+));

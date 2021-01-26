@@ -1,6 +1,6 @@
+/* eslint class-methods-use-this: "error" */
 export default class UI {
-
-    static renderElement(parent, tagName, innerHtml = null, ...attributes) {
+  static renderElement(parent, tagName, innerHtml = null, ...attributes) {
     const element = document.createElement(tagName);
 
     if (attributes.length) {
