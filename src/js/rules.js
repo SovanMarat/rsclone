@@ -5,10 +5,6 @@ import language from './lang';
 import app from './app';
 
 export default class Rules extends UI {
-  // constructor() {
-  //   super();
-  // }
-
   renderRules() {
     const header = document.querySelector('.header');
     header.textContent = '';

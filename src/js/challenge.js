@@ -49,6 +49,7 @@ export default class Challenge extends UI {
 
         if (control === 30) {
           resultText.textContent = `${language[сhallengeText][13]}`;
+          resultText.style.color = '#rgba(51, 235, 76, 0.644)';
           //
           ['pushups', 'sitUps', 'squats', 'burpee'].forEach((e) => {
             app[`state_${e}`] = true;
@@ -76,6 +77,8 @@ export default class Challenge extends UI {
     } else {
       btnDone.style.pointerEvents = 'none';
       resultText.textContent = `${language[сhallengeText][11]}`;
+      resultText.style.color = '#fefffe';
+      resultText.style.color = '#rgba(51, 235, 76, 0.644)';
     }
     const boxCalendar = UI.renderElement(todayBox, 'div', null, ['class', 'boxCalendar']);
     for (let i = 1; i < 31; i++) {
@@ -122,7 +125,7 @@ export default class Challenge extends UI {
       techniqueText.style.height = '0';
     });
 
-    // 1
+    // html2canvas
     btnSave.addEventListener('click', () => {
       html2canvas(document.querySelector('.mainChallenge')).then((canvas) => {
         mainChallenge.appendChild(canvas);
@@ -148,16 +151,13 @@ export default class Challenge extends UI {
 
   renderDay(exercise) {
     const currentDate = new Date();
-    // eslint-disable-next-line
-    const dateCurrent = currentDate.getTime() - (currentDate.getHours() * (3.6e+6) - currentDate.getMinutes() * 60000 - currentDate.getSeconds() * 1000);
+    currentDate.setHours(0, 0, 0, 0);
+    const dateCurrent = currentDate.getTime();
     localStorage.setItem('date_current', dateCurrent);
-
     localStorage.setItem('date', dateCurrent);
-
     app[`start_${exercise}`] = parseInt(localStorage.getItem(`start_${exercise}`), 10);
-
     const numberOfDays = Math.ceil((dateCurrent - app[`start_${exercise}`]) / 8.64e7);
-    app[`day_${exercise}`] = numberOfDays;
+    app[`day_${exercise}`] = numberOfDays + 1;
     localStorage.setItem(`day_${exercise}`, app[`day_${exercise}`]);
   }
 }

@@ -12,12 +12,8 @@ const test = new Test();
 const level = new Level();
 
 export default class Exercises extends UI {
-  // constructor() {
-  //   super();
-  // }
-
   level(exercise) {
-    if (!localStorage.getItem(`language`)) {
+    if (!localStorage.getItem('language')) {
       localStorage.setItem('language', language.appLang);
     } else {
       language.appLang = localStorage.getItem('language');
@@ -54,44 +50,48 @@ export default class Exercises extends UI {
 
   render(exercise) {
     const main = document.querySelector('.main');
-    const pushups = UI.renderElement(main, 'div', null, ['class', `test ${exercise}`]);
+    const sportsExercise = UI.renderElement(main, 'div', null, ['class', `test ${exercise}`]);
 
-    const pushupsContent = UI.renderElement(pushups, 'div', null, ['class', `exercises ${exercise}_content`]);
+    const sportsExerciseContent = UI.renderElement(sportsExercise, 'div', null, ['class', `exercises ${exercise}_content`]);
     switch (exercise) {
       case 'pushups':
-        pushupsContent.textContent = language[language.appLang][0]; // отжимания
+        sportsExerciseContent.textContent = language[language.appLang][0]; // отжимания
         break;
       case 'sitUps':
-        pushupsContent.textContent = language[language.appLang][1]; // пресс
+        sportsExerciseContent.textContent = language[language.appLang][1]; // пресс
         break;
       case 'squats':
-        pushupsContent.textContent = language[language.appLang][2]; // присед
+        sportsExerciseContent.textContent = language[language.appLang][2]; // присед
         break;
       case 'burpee':
-        pushupsContent.textContent = language[language.appLang][3]; // бёрпи
+        sportsExerciseContent.textContent = language[language.appLang][3]; // бёрпи
         break;
 
       default:
         break;
     }
 
-    // pushups
-    const pushupsBox = UI.renderElement(pushups, 'div', null, ['class', `${exercise}Box box`]);
-    UI.renderElement(pushupsBox, 'div', null, ['class', `${exercise}BoxImg boxImg`]);
-    UI.renderElement(pushupsBox, 'div', null, ['class', `${exercise}BoxLevel boxLevel`]);
-    const pushupsStatus = UI.renderElement(pushups, 'div', null, ['class', `${exercise}Status status`]);
+    // sportsExercise
+    const sportsExerciseBox = UI.renderElement(sportsExercise, 'div', null, ['class', `${exercise}Box box`]);
+    UI.renderElement(sportsExerciseBox, 'div', null, ['class', `${exercise}BoxImg boxImg`]);
+    UI.renderElement(sportsExerciseBox, 'div', null, ['class', `${exercise}BoxLevel boxLevel`]);
+    if (JSON.parse(app[`state_${exercise}`])) {
+      const controlDay = parseInt(localStorage.getItem(`control_${exercise}`), 10);
+      const runLevel = UI.renderElement(sportsExercise, 'div', null, ['class', 'runLevel']);
+      runLevel.style.width = `${controlDay * 3.333}%`;
+    }
+    const status = UI.renderElement(sportsExercise, 'div', null, ['class', `${exercise}Status status`]);
 
     if (app[`day_${exercise}`]) {
       const tempDay = app[`day_${exercise}`];
-      // ${language[language.appLang][39]};
-      pushupsStatus.textContent = `${language[language.appLang][39]} ${tempDay}/30`;
+      status.textContent = `${language[language.appLang][39]} ${tempDay}/30`;
     } else {
-      pushupsStatus.textContent = `${language[language.appLang][40]}`;
+      status.textContent = `${language[language.appLang][40]}`;
     }
 
     if (!JSON.parse(app[`state_${exercise}`])) {
-      pushupsStatus.textContent = `${language[language.appLang][41]}`;
-      UI.renderElement(pushups, 'div', null, ['class', 'blockingBlock']);
+      status.textContent = `${language[language.appLang][41]}`;
+      UI.renderElement(sportsExercise, 'div', null, ['class', 'blockingBlock']);
     }
   }
 
@@ -124,9 +124,7 @@ export default class Exercises extends UI {
     const clickStart = document.querySelector(`.${exercise}`);
     const tempState = `state_${exercise}`;
     clickStart.addEventListener('click', () => {
-      // app.day_pushups = parseInt(localStorage.getItem('day_pushups'));/// в самое начало
-
-      if (parseInt(localStorage.getItem(`day_${exercise}`), 10) > 0) { // условие что челлендж уже начат
+      if (parseInt(localStorage.getItem(`day_${exercise}`), 10) > 0) {
         challenge.renderChallenge(exercise);
         challenge.renderDay(exercise);
       } else if (JSON.parse(app[tempState])) {
@@ -142,7 +140,6 @@ export default class Exercises extends UI {
 
         // Yes
         answerYes.addEventListener('click', () => {
-          // блокируем другие level
           const array = ['pushups', 'sitUps', 'squats', 'burpee'];
           const index = array.indexOf(exercise);
           array.splice(index, 1);
@@ -154,13 +151,14 @@ export default class Exercises extends UI {
 
           localStorage.setItem(`control_${exercise}`, 0);
           const start = new Date();
+          start.setHours(0, 0, 0, 0);
           const finish = new Date();
           finish.setDate(finish.getDate() + 29);
           const tempStart = `${start.getDate()} ${language[language.appLang][start.getMonth() + 9]} ${start.getFullYear()}`;
           localStorage.setItem(`start_view_${exercise}`, tempStart);
           const tempFinish = `${finish.getDate()} ${language[language.appLang][finish.getMonth() + 9]} ${finish.getFullYear()}`;
           localStorage.setItem(`finish_view_${exercise}`, tempFinish);
-          app[`start_${exercise}`] = start.getTime() - (start.getHours() * (3.6e+6) - start.getMinutes() * 60000 - start.getSeconds() * 1000);
+          app[`start_${exercise}`] = start.getTime();
           localStorage.setItem(`start_${exercise}`, app[`start_${exercise}`]);
           challenge.renderChallenge(exercise);
           challenge.renderDay(exercise);
@@ -204,21 +202,20 @@ export default class Exercises extends UI {
         localStorage.setItem(`start_${exercise}`, app[`start_${exercise}`]);
         challenge.renderChallenge(exercise);
         challenge.renderDay(exercise);
-        //
-        //  localStorage.setItem(`day_${exercise}`, 1);
-        // app[`day_${exercise}`] = 1;
       });
     }
 
     // проерка выполнил ли сегодня
+    const changeStatus = document.querySelector(`.${exercise}Status`);
     if (control === day) {
-      const changeStatus = document.querySelector(`.${exercise}Status`);
-      changeStatus.style.background = 'rgba(9, 245, 40, 0.9)';
+      changeStatus.style.background = 'rgba(30, 206, 30, 0.3)';
+    }
+    if (control !== day && day) {
+      changeStatus.style.background = ' rgba(174, 206, 30, 0.541)';
     }
   }
 
   init() {
-    /// --------------------------------------------------------
     const header = document.querySelector('.header');
     const main = document.querySelector('.main');
     header.innerHTML = '';

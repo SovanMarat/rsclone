@@ -25,10 +25,10 @@ exercises.render('sitUps');
 exercises.render('squats');
 exercises.render('burpee');
 
-exercises.clickExercises('pushups', app.level_pushups);//
-exercises.clickExercises('sitUps', app.level_sitUps);//
-exercises.clickExercises('squats', app.level_squats);//
-exercises.clickExercises('burpee', app.level_burpee);//
+exercises.clickExercises('pushups', app.level_pushups);
+exercises.clickExercises('sitUps', app.level_sitUps);
+exercises.clickExercises('squats', app.level_squats);
+exercises.clickExercises('burpee', app.level_burpee);
 exercises.clickLang();
 
 export const level = new Level();

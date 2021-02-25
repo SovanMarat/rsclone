@@ -119,7 +119,7 @@ export default class Test extends UI {
     const answer22 = UI.renderElement(question5, 'div', null, ['class', 'answer answer22']);
     answer22.textContent = '> 40';
     answer22.setAttribute('id', 'answer22');
-    ///
+
     const question6 = UI.renderElement(mainTest, 'div', null, ['class', 'question question6']);
     question6.textContent = language[language.appLang][36];
 
@@ -258,7 +258,6 @@ export default class Test extends UI {
             coefficientPushups = coefficient * 5;
             question4.style.display = 'none';
             question5.style.display = 'flex';
-            // app.coefficient = coefficient;
             break;
 
           case 'answer14':
@@ -290,7 +289,6 @@ export default class Test extends UI {
 
             question5.style.display = 'none';
             question6.style.display = 'flex';
-            // app.coefficient = coefficient;
             break;
 
           case 'answer19':
@@ -316,13 +314,12 @@ export default class Test extends UI {
             question5.style.display = 'none';
             question6.style.display = 'flex';
             break;
-          ///
+
           case 'answer23':
             coefficientSquats = coefficient * 5;
 
             question6.style.display = 'none';
             question7.style.display = 'flex';
-            // app.coefficient = coefficient;
             break;
 
           case 'answer24':
@@ -349,7 +346,7 @@ export default class Test extends UI {
             question7.style.display = 'flex';
             break;
           //
-          case 'answer28': // end!!!!
+          case 'answer28':
             coefficientBurpee = (coefficientSitUps + coefficientPushups + coefficientSquats) / 3;
             question7.style.display = 'none';
             localStorage.setItem('coefficientPushups', coefficientPushups);
