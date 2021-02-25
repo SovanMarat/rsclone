@@ -47,9 +47,10 @@ export default class Challenge extends UI {
         const dayDone = document.querySelector(`.day${control}`);
         dayDone.style.background = 'rgba(51, 235, 76, 0.644)';
 
+
         if (control === 30) {
           resultText.textContent = `${language[сhallengeText][13]}`;
-          resultText.style.color = '#rgba(51, 235, 76, 0.644)';
+          resultText.style.color = 'rgba(51, 235, 76, 0.944)';
           //
           ['pushups', 'sitUps', 'squats', 'burpee'].forEach((e) => {
             app[`state_${e}`] = true;
@@ -77,8 +78,9 @@ export default class Challenge extends UI {
     } else {
       btnDone.style.pointerEvents = 'none';
       resultText.textContent = `${language[сhallengeText][11]}`;
-      resultText.style.color = '#fefffe';
-      resultText.style.color = '#rgba(51, 235, 76, 0.644)';
+      const res = document.querySelector(`.resultText`);
+
+      res.style.color = 'rgba(176, 245, 14, 0.9)';
     }
     const boxCalendar = UI.renderElement(todayBox, 'div', null, ['class', 'boxCalendar']);
     for (let i = 1; i < 31; i++) {
@@ -130,10 +132,6 @@ export default class Challenge extends UI {
       html2canvas(document.querySelector('.mainChallenge')).then((canvas) => {
         mainChallenge.appendChild(canvas);
         const ctx = canvas.getContext('2d');
-        ctx.fillStyle = 'rgba(125, 46, 138, 0.5)';
-        ctx.fillRect(25, 25, 100, 100);
-        ctx.fillStyle = 'rgba( 0, 146, 38, 0.5)';
-        ctx.fillRect(58, 74, 125, 100);
         canvas.setAttribute('id', 'aLink');
         const testLink = document.getElementById('aLink');
         const image = testLink.toDataURL();
